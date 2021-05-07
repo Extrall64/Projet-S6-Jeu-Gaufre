@@ -9,20 +9,24 @@ import Joueur.Joueur;
 import Patterns.Point;
 
 public class Arbitre implements InterfaceArbitre {
+	int nouvL,nouvH;
     InterfaceNiveau niveau;
     InterfaceGraphique ig;
     
-    int numJoueur;
-    Joueur j1;
-    Joueur j2;
-    int typeIAj2;
+    int joueurCourant;
+    
+    Joueur[] joueurs;
+    int[] typeIA;
 
     public Arbitre(InterfaceNiveau n){
+    	typeIA = new int[2];
+    	joueurs = new Joueur[2];
         niveau = n;
-        numJoueur = 1;
-        j1 = new Humain();
-        j2 = new Humain();
-        typeIAj2 = 0;
+        nouvL = niveau.largeur();
+        nouvH = niveau.hauteur();
+        joueurCourant = 1;
+        fixeIA(InterfaceArbitre.JOUEUR1,InterfaceArbitre.HUMAIN);
+        fixeIA(InterfaceArbitre.JOUEUR2,InterfaceArbitre.HUMAIN);
     }
     
     public void fixerInterfaceGraphique(InterfaceGraphique i) {
@@ -30,52 +34,53 @@ public class Arbitre implements InterfaceArbitre {
 	}
 
     public int joueurCourant(){
-        return numJoueur;
+        return joueurCourant;
     }
 
     public void joue(int ligne,int colonne){
-        if(niveau.coupAutoriser(ligne,colonne)){
+        if(typeIA[joueurCourant-1] == 0 && niveau.coupAutoriser(ligne,colonne)){
             niveau.joue(ligne,colonne);
             changeJoueur();
-            if(numJoueur == 2 && typeIAj2 > 0 && !niveau.estJeuFini()) {
-            	Point p = j2.determineCoup();
-            	niveau.joue(p.x,p.y);
-                changeJoueur();
-            }
         }else{
             System.out.println("Coup non autorisï¿½ !");
         }
-        if(niveau.estJeuFini())
-        	System.out.println("Le partie est fini : joueur " + numJoueur + " a gagner");
     }
 
-    void changeJoueur(){
-        if(numJoueur == 1) numJoueur = 2;
-        else numJoueur = 1;
+    private void changeJoueur(){
+        if(joueurCourant == InterfaceArbitre.JOUEUR1) {
+        	joueurCourant = InterfaceArbitre.JOUEUR2;
+        }else{
+        	joueurCourant = InterfaceArbitre.JOUEUR1;
+        }
+        joueIA();
+    }
+    
+    private void joueIA() {
+    	if(typeIA[joueurCourant-1] != InterfaceArbitre.HUMAIN && !niveau.estJeuFini()) {
+	    	Point p = joueurs[joueurCourant-1].determineCoup();
+	    	niveau.joue(p.x,p.y);
+	        changeJoueur();
+    	}
     }
 
-    void changeIA(int typeIA){
-        typeIAj2 = typeIA;
-        switch (typeIAj2){
+    private void fixeIA(int joueur, int typeia){
+    	typeIA[joueur-1] = typeia;
+        switch (typeia){
             case 0:
-                j2 = new Humain();
+                joueurs[joueur-1] = new Humain();
                 break;
             case 1:
-                j2 = new IAAleatoire(niveau);
+            	joueurs[joueur-1] = new IAAleatoire(niveau);
                 break;
             case 2:
-                j2 = new IAGagnantPerdant(niveau);
+            	joueurs[joueur-1] = new IAGagnantPerdant(niveau);
                 break;
             case 3:
-                j2 = new IAEtOu(niveau);
+            	joueurs[joueur-1] = new IAEtOu(niveau);
                 break;
             default:
                 System.out.println("Type IA non reconnue");
         }
-    }
-
-    int estTypeIA(){
-        return typeIAj2;
     }
     
     public void tictac() {
@@ -88,10 +93,11 @@ public class Arbitre implements InterfaceArbitre {
     }
     
     private void nouveauNiveau() {
-    	niveau.initialiser();
-        numJoueur = 1;
-        j1 = new Humain();
-        changeIA(typeIAj2);  	
+    	niveau.initialiser(nouvH,nouvL);
+    	joueurCourant = 1;
+        fixeIA(InterfaceArbitre.JOUEUR1,typeIA[0]);
+        fixeIA(InterfaceArbitre.JOUEUR2,typeIA[1]);
+        joueIA();
     }
     
     public void commande(String commande) {
@@ -99,38 +105,59 @@ public class Arbitre implements InterfaceArbitre {
     		case "NouvellePartie" :
     			nouveauNiveau();
     			break;
-    		case "moins" :
-    			modifieIA(false);
+    		case "moins1" :
+    			modifieIA(1,false);
     			break;
-    		case "plus" :
-    			modifieIA(true);
+    		case "plus1" :
+    			modifieIA(1,true);
+    			break;
+    		case "moins2" :
+    			modifieIA(2,false);
+    			break;
+    		case "plus2" :
+    			modifieIA(2,true);
+    			break;
+    		case "addH":
+    			nouvH++;
+    			break;
+    		case "addL":
+    			nouvL++;
+    			break;
+    		case "subH":
+    			if(nouvH>2) {nouvH--;}
+    			break;
+    		case "subL":
+    			if(nouvL>2) {nouvL--;}
     			break;
     		default :
     			
     	}
     }
     
-    private void modifieIA(boolean b) {
+    private void modifieIA(int j,boolean b) {
     	if(b) {
-    		if(typeIAj2 != 3) {
-    			changeIA(typeIAj2+1);
+    		if(typeIA[j-1] != InterfaceArbitre.DIFFICILE) {
+    			fixeIA(j,typeIA[j-1] + 1);
+    			joueIA();
     		}
     	}
     	else {
-    		if(typeIAj2 != 0) {
-    			changeIA(typeIAj2-1);
+    		if(typeIA[j-1] != InterfaceArbitre.HUMAIN) {
+    			fixeIA(j,typeIA[j-1] - 1);
+    			joueIA();
     		}
     	}
+    	
     }
     
-    public String etatIA() {
-    	if(typeIAj2 == 0) {
+    public String etatIA(int j) {
+    	if(typeIA[j-1] == InterfaceArbitre.HUMAIN) {
     		return "Humain";
     	}
-    	else if(typeIAj2 == 1) {
+    	else if(typeIA[j-1] == InterfaceArbitre.FACILE) {
     		return "Facile";
     	}
-    	else if(typeIAj2 == 2) {
+    	else if(typeIA[j-1] == InterfaceArbitre.MOYEN) {
     		return "Moyen";
     	}
     	else{
@@ -140,10 +167,22 @@ public class Arbitre implements InterfaceArbitre {
     
     public String etatJoueur() {
     	if(niveau.estJeuFini()) {
+<<<<<<< HEAD
     		return ("Joueur "+ numJoueur  + " a gagnï¿½!");
+=======
+    		return ("Joueur "+ joueurCourant  + " a gagné!");
+>>>>>>> branch 'master' of https://github.com/Extrall64/Projet-S6-Jeu-Gaufre.git
     	}
     	else {
-    		return ("Au tour de : Joueur " + numJoueur);
+    		return ("Au tour de : Joueur " + joueurCourant);
     	}
     }
+    
+    public int nouvelleHauteur() {
+    	return nouvH;
+    }
+	
+	public int nouvelleLargeur() {
+		return nouvL;
+	}
 }

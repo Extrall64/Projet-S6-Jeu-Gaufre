@@ -5,7 +5,7 @@ public interface InterfaceNiveau {
     public static final int GAUFRE = 1;
     public static final int POISON = 2;
     
-    public void initialiser();
+    public void initialiser(int h,int l);
     int hauteur();
     int largeur();
     boolean estJeuFini();

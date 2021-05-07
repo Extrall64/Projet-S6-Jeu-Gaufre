@@ -8,9 +8,12 @@ public class Niveau implements InterfaceNiveau{
         hauteur = h;
         largeur = l;
         T = new int[h][l];
-        initialiser();
+        initialiser(h,l);
     }
-    public void initialiser() {
+    public void initialiser(int h,int l) {
+    	hauteur = h;
+        largeur = l;
+        T = new int[h][l];
         for(int i = 0; i < hauteur; i++)
             for(int j = 0; j < largeur; j++)
                 T[i][j] = InterfaceNiveau.GAUFRE;
