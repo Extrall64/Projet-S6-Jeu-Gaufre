@@ -39,6 +39,8 @@ public class Arbitre implements InterfaceArbitre {
         }else{
             System.out.println("Coup non autorisé !");
         }
+        if(niveau.estJeuFini())
+        	System.out.println("Le partie est fini : joueur " + (numJoueur%2 + 1) + " a gagner");
     }
 
     void changeJoueur(){

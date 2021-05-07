@@ -29,7 +29,7 @@ public class Niveau implements InterfaceNiveau{
     }
 
     public boolean coupAutoriser(int i, int j) {
-        return i >= 0 && i < hauteur && j >= 0 && j < largeur && T[i][j] != InterfaceNiveau.VIDE;
+        return i >= 0 && i < hauteur && j >= 0 && j < largeur && T[i][j] != InterfaceNiveau.VIDE && !estJeuFini();
     }
 
     public void joue(int ligne, int colonne) {
