@@ -12,6 +12,8 @@ public class InterfaceGraphique implements Runnable{
 	InterfaceArbitre arbitre;
 	boolean maximized;
 	JFrame frame;
+	JLabel joueurCourant;
+	JButton nouvellePartie;
 	JeuGraphique jg;
 
 	InterfaceGraphique(InterfaceNiveau j, InterfaceArbitre a) {
@@ -22,11 +24,38 @@ public class InterfaceGraphique implements Runnable{
 	public static void demarrer(InterfaceNiveau j, InterfaceArbitre a) {
 		SwingUtilities.invokeLater(new InterfaceGraphique(j, a));
 	}
+	
+	private JLabel createLabel(String s) {
+		JLabel lab = new JLabel(s);
+		lab.setAlignmentX(Component.CENTER_ALIGNMENT);
+		return lab;
+	}
+	
+	private JButton createButton(String s, String c) {
+		JButton but = new JButton(s);
+		but.addActionListener(new AdaptateurCommande(arbitre, c));
+		but.setAlignmentX(Component.CENTER_ALIGNMENT);
+		but.setFocusable(false);
+		return but;
+	}
 
 	public void run() {	
 		frame = new JFrame("Gaufre");
 		jg = new JeuGraphique(jeu);
 		frame.add(jg);
+		
+		//affichage
+		Box barreLaterale = Box.createVerticalBox();
+		barreLaterale.add(createLabel("Gaufre"));
+		barreLaterale.add(Box.createGlue());
+		joueurCourant = createLabel("Au tour de : Joueur 1");
+		barreLaterale.add(joueurCourant);
+		frame.add(barreLaterale, BorderLayout.LINE_END);
+		
+		//bouton
+		nouvellePartie = createButton("Nouvelle partie", "NouvellePartie");
+		barreLaterale.add(nouvellePartie);
+		
 		jg.addMouseListener(new AdaptateurSouris(jg, arbitre));
 		Timer time = new Timer(16, new AdaptateurTemps(arbitre));
 		time.start();
@@ -50,6 +79,7 @@ public class InterfaceGraphique implements Runnable{
 	}
 
 	public void metAJour() {
+		joueurCourant.setText("Au tour de : Joueur " + arbitre.joueurCourant());
 		jg.repaint();
 	}	
 }

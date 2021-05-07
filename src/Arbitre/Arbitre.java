@@ -28,7 +28,7 @@ public class Arbitre implements InterfaceArbitre {
 		ig = i;
 	}
 
-    int joueurCourant(){
+    public int joueurCourant(){
         return numJoueur;
     }
 
@@ -71,6 +71,23 @@ public class Arbitre implements InterfaceArbitre {
     
     public void tictac() {
         ig.metAJour();
+    }
+    
+    private void nouveauNiveau() {
+    	niveau.initialiser();
+        numJoueur = 1;
+        j1 = new Humain();
+        changeIA(typeIAj2);  	
+    }
+    
+    public void commande(String commande) {
+    	switch (commande) {
+    		case "NouvellePartie" :
+    			nouveauNiveau();
+    			break;
+    		default :
+    			
+    	}
     }
 
 }
