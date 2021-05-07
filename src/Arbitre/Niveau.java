@@ -35,9 +35,9 @@ public class Niveau implements InterfaceNiveau{
     public void joue(int ligne, int colonne) {
         int i = ligne;
         int j;
-        while(i<largeur){
+        while(i<hauteur){
             j = colonne;
-            while(j<hauteur){
+            while(j<largeur){
                 T[i][j]=InterfaceNiveau.VIDE;
                 j++;
             }

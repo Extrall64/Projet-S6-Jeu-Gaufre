@@ -1,8 +1,9 @@
 package Joueur;
 
-import java.awt.*;
 import java.util.Random;
-import Arbitre.*;
+
+import Arbitre.InterfaceNiveau;
+import Patterns.Point;
 
 public class IAGagnantPerdant implements Joueur{
 	InterfaceNiveau n;

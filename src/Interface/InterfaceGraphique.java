@@ -1,11 +1,15 @@
 package Interface;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+
 import javax.swing.*;
-import java.awt.*;
 
 import Arbitre.InterfaceArbitre;
 import Arbitre.InterfaceNiveau;
-import Arbitre.Niveau;
+import Patterns.Point;
 
 public class InterfaceGraphique implements Runnable{
 	InterfaceNiveau jeu;
@@ -80,7 +84,7 @@ public class InterfaceGraphique implements Runnable{
 	}
 
 	public void metAJour() {
-		joueurCourant.setText("Au tour de : Joueur " + arbitre.joueurCourant());
+		joueurCourant.setText(arbitre.etatJoueur());
 		jg.repaint();
 	}
 	

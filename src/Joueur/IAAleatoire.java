@@ -1,8 +1,9 @@
 package Joueur;
 
-import java.awt.*;
+
 import java.util.Random;
 import Arbitre.*;
+import Patterns.Point;
 
 public class IAAleatoire implements Joueur{
 	InterfaceNiveau n;
@@ -16,7 +17,7 @@ public class IAAleatoire implements Joueur{
     public Point determineCoup() {
         int i = rand.nextInt(n.hauteur());
         int j = rand.nextInt(n.largeur());
-        while ( (i != 0 && j != 0) && !n.coupAutoriser(i, j)) {
+        while (!n.coupAutoriser(i, j)) {
             i = rand.nextInt(n.hauteur());
             j = rand.nextInt(n.largeur());            
         }

@@ -17,7 +17,7 @@ public class Configuration {
 	private Configuration() {
 		prop = new Properties();
 		try {
-			InputStream propIn = charge("defaut.cfg");
+			InputStream propIn = charge("default.cfg");
 			prop.load(propIn);
 			String home = System.getProperty("user.home");
 			FileInputStream f = new FileInputStream(home + File.separator + ".gaufre");

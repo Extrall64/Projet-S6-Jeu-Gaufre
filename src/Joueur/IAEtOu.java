@@ -1,7 +1,7 @@
 package Joueur;
 
-import java.awt.*;
-import Arbitre.*;
+import Arbitre.InterfaceNiveau;
+import Patterns.Point;
 
 public class IAEtOu implements Joueur{
     public IAEtOu(InterfaceNiveau n) {}

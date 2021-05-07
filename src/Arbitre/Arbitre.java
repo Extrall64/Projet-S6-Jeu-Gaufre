@@ -1,13 +1,12 @@
 package Arbitre;
 
-import java.awt.Point;
-
 import Interface.InterfaceGraphique;
 import Joueur.Humain;
 import Joueur.IAAleatoire;
 import Joueur.IAEtOu;
 import Joueur.IAGagnantPerdant;
 import Joueur.Joueur;
+import Patterns.Point;
 
 public class Arbitre implements InterfaceArbitre {
     InterfaceNiveau niveau;
@@ -24,7 +23,6 @@ public class Arbitre implements InterfaceArbitre {
         j1 = new Humain();
         j2 = new Humain();
         typeIAj2 = 0;
-        changeIA(1);
     }
     
     public void fixerInterfaceGraphique(InterfaceGraphique i) {
@@ -36,15 +34,12 @@ public class Arbitre implements InterfaceArbitre {
     }
 
     public void joue(int ligne,int colonne){
-        if(niveau.coupAutoriser(ligne,colonne) && !(numJoueur == 2 && typeIAj2 > 0)){
+        if(niveau.coupAutoriser(ligne,colonne)){
             niveau.joue(ligne,colonne);
-            tictac();
             changeJoueur();
             if(numJoueur == 2 && typeIAj2 > 0 && !niveau.estJeuFini()) {
             	Point p = j2.determineCoup();
-            	System.out.println("IA a joue : en x : "+p.x + " en y: "+p.y);
-            	niveau.joue(p.y,p.x);
-            	tictac();
+            	niveau.joue(p.x,p.y);
                 changeJoueur();
             }
         }else{
@@ -108,5 +103,13 @@ public class Arbitre implements InterfaceArbitre {
     			
     	}
     }
-
+    
+    public String etatJoueur() {
+    	if(niveau.estJeuFini()) {
+    		return ("Joueur "+ numJoueur  + " a gagné!");
+    	}
+    	else {
+    		return ("Au tour de : Joueur " + numJoueur);
+    	}
+    }
 }

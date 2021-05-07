@@ -4,13 +4,13 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 
 import javax.swing.JComponent;
 
 import Arbitre.InterfaceNiveau;
-import Arbitre.Niveau;
+import Patterns.Point;
 
+@SuppressWarnings("serial")
 public class JeuGraphique extends JComponent {
 	int largeur, hauteur,largeurCase,hauteurCase;
 	Point surligne;
