@@ -37,7 +37,7 @@ public class Arbitre implements InterfaceArbitre {
             niveau.joue(ligne,colonne);
             changeJoueur();
         }else{
-            System.out.println("Coup non autorisÃ© !");
+            System.out.println("Coup non autorisé !");
         }
     }
 

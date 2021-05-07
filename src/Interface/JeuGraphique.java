@@ -34,6 +34,8 @@ public class JeuGraphique extends JComponent {
 	}
 	
 	void tracerNiveau() {
+		int margeX = largeurCase/5;
+		int margeY = hauteurCase/5;
 		// afficher cases
 		drawable.setColor(Color.yellow);
 		for (int i = 0; i < niveau.hauteur(); i++)
@@ -41,15 +43,15 @@ public class JeuGraphique extends JComponent {
 				if (niveau.contenu(i, j) == InterfaceNiveau.GAUFRE || niveau.contenu(i, j) == InterfaceNiveau.POISON) drawable.fillRect(j*largeurCase, i*hauteurCase, largeurCase, hauteurCase);
 		// afficher case poison
 		drawable.setColor(Color.green);
-		drawable.fillOval(0, 0, largeurCase, hauteurCase);
+		drawable.fillOval(margeX/2, margeY/2, largeurCase-margeX, hauteurCase-margeY);
 
 		// afficher les lignes colonnes
 		drawable.setColor(Color.black);
 		drawable.setStroke(new BasicStroke(2));
-		for (int i = 0; i <= niveau.hauteur(); i++)
-			drawable.drawLine(0, i*hauteurCase, hauteur, i*hauteurCase);
-		for (int i = 0; i <= niveau.largeur(); i++)
-			drawable.drawLine(i*largeurCase, 0, i*largeurCase, largeur);
+		for (int i = 0; i < niveau.hauteur() - 1; i++)
+			drawable.drawLine(0, (i+1)*hauteurCase, largeur, (i+1)*hauteurCase);
+		for (int i = 0; i < niveau.largeur() - 1; i++)
+			drawable.drawLine((i+1)*largeurCase, 0, (i+1)*largeurCase, hauteur);
 	}
 	
 	int largeurCase() {
