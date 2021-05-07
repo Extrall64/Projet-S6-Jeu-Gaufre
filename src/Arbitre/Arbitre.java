@@ -43,7 +43,7 @@ public class Arbitre implements InterfaceArbitre {
                 changeJoueur();
             }
         }else{
-            System.out.println("Coup non autorisé !");
+            System.out.println("Coup non autorisï¿½ !");
         }
         if(niveau.estJeuFini())
         	System.out.println("Le partie est fini : joueur " + numJoueur + " a gagner");
@@ -140,7 +140,7 @@ public class Arbitre implements InterfaceArbitre {
     
     public String etatJoueur() {
     	if(niveau.estJeuFini()) {
-    		return ("Joueur "+ numJoueur  + " a gagné!");
+    		return ("Joueur "+ numJoueur  + " a gagnï¿½!");
     	}
     	else {
     		return ("Au tour de : Joueur " + numJoueur);

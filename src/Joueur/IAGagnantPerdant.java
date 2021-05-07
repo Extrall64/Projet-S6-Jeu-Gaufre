@@ -42,7 +42,7 @@ public class IAGagnantPerdant implements Joueur{
             if (!(n.contenu(1, 1) == InterfaceNiveau.VIDE)) {
                 int i = rand.nextInt(n.hauteur()-1);
                 int j = rand.nextInt(n.largeur()-1);
-                while (!n.coupAutoriser(i, j)) {
+                while (!n.coupAutoriser(i+1, j+1)) {
                     i = rand.nextInt(n.hauteur()-1);
                     j = rand.nextInt(n.largeur()-1);            
                 }
@@ -67,7 +67,7 @@ public class IAGagnantPerdant implements Joueur{
                 if ( (sh % 2 == 0 && sv % 2 != 0)) return new Point(0, sh);
                 else if ( (sv % 2 == 0 && sh % 2 != 0))  return new Point(sv, 0);
                 // probabilité de perdre
-                else return new Point(0, sv);
+                else return new Point(0, sv); // coup pas toujours correcte;
             }
         }
         return new Point(0, 0);
