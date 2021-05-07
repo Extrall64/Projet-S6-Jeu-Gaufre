@@ -70,7 +70,6 @@ public class IAGagnantPerdant implements Joueur{
                 else return new Point(sv, 0);
             }
         }
-System.out.println("coup rendu a la ligne 73");
         return new Point(0, 0);
     }
     @Override
