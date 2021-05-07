@@ -6,6 +6,7 @@ import Joueur.IAAleatoire;
 import Joueur.IAEtOu;
 import Joueur.IAGagnantPerdant;
 import Joueur.Joueur;
+import Patterns.Point;
 
 public class Arbitre implements InterfaceArbitre {
     InterfaceNiveau niveau;
@@ -28,7 +29,7 @@ public class Arbitre implements InterfaceArbitre {
 		ig = i;
 	}
 
-    int joueurCourant(){
+    public int joueurCourant(){
         return numJoueur;
     }
 
@@ -36,11 +37,16 @@ public class Arbitre implements InterfaceArbitre {
         if(niveau.coupAutoriser(ligne,colonne)){
             niveau.joue(ligne,colonne);
             changeJoueur();
+            if(numJoueur == 2 && typeIAj2 > 0 && !niveau.estJeuFini()) {
+            	Point p = j2.determineCoup();
+            	niveau.joue(p.x,p.y);
+                changeJoueur();
+            }
         }else{
-            System.out.println("Coup non autorisÃ© !");
+            System.out.println("Coup non autorisé !");
         }
         if(niveau.estJeuFini())
-        	System.out.println("Le partie est fini : joueur " + (numJoueur%2 + 1) + " a gagner");
+        	System.out.println("Le partie est fini : joueur " + numJoueur + " a gagner");
     }
 
     void changeJoueur(){
@@ -53,16 +59,19 @@ public class Arbitre implements InterfaceArbitre {
         switch (typeIAj2){
             case 0:
                 j2 = new Humain();
+                break;
             case 1:
                 j2 = new IAAleatoire(niveau);
+                break;
             case 2:
                 j2 = new IAGagnantPerdant(niveau);
+                break;
             case 3:
                 j2 = new IAEtOu(niveau);
+                break;
             default:
                 System.out.println("Type IA non reconnue");
         }
-
     }
 
     int estTypeIA(){
@@ -72,5 +81,69 @@ public class Arbitre implements InterfaceArbitre {
     public void tictac() {
         ig.metAJour();
     }
-
+    
+    public void surligne(int l, int c) {
+    	ig.setSurligne(new Point(l,c));
+    	ig.metAJour();
+    }
+    
+    private void nouveauNiveau() {
+    	niveau.initialiser();
+        numJoueur = 1;
+        j1 = new Humain();
+        changeIA(typeIAj2);  	
+    }
+    
+    public void commande(String commande) {
+    	switch (commande) {
+    		case "NouvellePartie" :
+    			nouveauNiveau();
+    			break;
+    		case "moins" :
+    			modifieIA(false);
+    			break;
+    		case "plus" :
+    			modifieIA(true);
+    			break;
+    		default :
+    			
+    	}
+    }
+    
+    private void modifieIA(boolean b) {
+    	if(b) {
+    		if(typeIAj2 != 3) {
+    			changeIA(typeIAj2+1);
+    		}
+    	}
+    	else {
+    		if(typeIAj2 != 0) {
+    			changeIA(typeIAj2-1);
+    		}
+    	}
+    }
+    
+    public String etatIA() {
+    	if(typeIAj2 == 0) {
+    		return "Humain";
+    	}
+    	else if(typeIAj2 == 1) {
+    		return "Facile";
+    	}
+    	else if(typeIAj2 == 2) {
+    		return "Moyen";
+    	}
+    	else{
+    		return "Difficile";
+    	}
+    }
+    
+    public String etatJoueur() {
+    	if(niveau.estJeuFini()) {
+    		return ("Joueur "+ numJoueur  + " a gagné!");
+    	}
+    	else {
+    		return ("Au tour de : Joueur " + numJoueur);
+    	}
+    }
 }

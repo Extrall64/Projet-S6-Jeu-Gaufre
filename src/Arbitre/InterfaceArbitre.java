@@ -10,4 +10,14 @@ public interface InterfaceArbitre {
 
 	void fixerInterfaceGraphique(InterfaceGraphique interfaceGraphique);
 
+	int joueurCourant();
+	
+	public void commande(String commande);
+	
+	public void surligne(int l, int c);
+	
+	public String etatJoueur();
+	
+	public String etatIA();
+
 }

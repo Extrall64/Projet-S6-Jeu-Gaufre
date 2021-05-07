@@ -20,4 +20,12 @@ public class AdaptateurSouris extends MouseAdapter {
 		int l = e.getY() / jg.hauteurCase();
 		arbitre.joue(l, c);
 	}
+	
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		System.out.println("OK");
+		int c = e.getX() / jg.largeurCase();
+		int l = e.getY() / jg.hauteurCase();
+		arbitre.surligne(l, c);
+	}
 }

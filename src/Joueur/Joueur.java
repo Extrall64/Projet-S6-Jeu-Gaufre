@@ -1,6 +1,6 @@
 package Joueur;
 
-import java.awt.*;
+import Patterns.Point;
 
 // la fonction informer est pour Humain, a la clique du souris
 // sinon ignorer pour les autres type de joueur

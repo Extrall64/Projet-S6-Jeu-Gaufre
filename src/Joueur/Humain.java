@@ -1,6 +1,6 @@
 package Joueur;
 
-import java.awt.*;
+import Patterns.Point;
 
 public class Humain implements Joueur{
     int i, j;

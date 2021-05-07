@@ -8,10 +8,12 @@ import java.awt.Graphics2D;
 import javax.swing.JComponent;
 
 import Arbitre.InterfaceNiveau;
-import Arbitre.Niveau;
+import Patterns.Point;
 
+@SuppressWarnings("serial")
 public class JeuGraphique extends JComponent {
 	int largeur, hauteur,largeurCase,hauteurCase;
+	Point surligne;
 	Graphics2D drawable;
 	InterfaceNiveau niveau;
 
@@ -34,22 +36,32 @@ public class JeuGraphique extends JComponent {
 	}
 	
 	void tracerNiveau() {
+		int margeX = largeurCase/5;
+		int margeY = hauteurCase/5;
 		// afficher cases
 		drawable.setColor(Color.yellow);
 		for (int i = 0; i < niveau.hauteur(); i++)
 			for (int j = 0; j < niveau.largeur(); j++)
 				if (niveau.contenu(i, j) == InterfaceNiveau.GAUFRE || niveau.contenu(i, j) == InterfaceNiveau.POISON) drawable.fillRect(j*largeurCase, i*hauteurCase, largeurCase, hauteurCase);
+		
+		//deplacement interactif
+		if(surligne != null) {
+			drawable.setColor(Color.blue);
+			for (int i = 0; i < surligne.y; i++)
+				for (int j = 0; j < surligne.x; j++)
+					if (niveau.contenu(i, j) == InterfaceNiveau.GAUFRE || niveau.contenu(i, j) == InterfaceNiveau.POISON) drawable.fillRect(j*largeurCase, i*hauteurCase, largeurCase, hauteurCase);
+		}	
 		// afficher case poison
 		drawable.setColor(Color.green);
-		drawable.fillOval(0, 0, largeurCase, hauteurCase);
+		drawable.fillOval(margeX/2, margeY/2, largeurCase-margeX, hauteurCase-margeY);
 
 		// afficher les lignes colonnes
 		drawable.setColor(Color.black);
 		drawable.setStroke(new BasicStroke(2));
-		for (int i = 0; i < niveau.hauteur(); i++)
-			drawable.drawLine(0, i*hauteurCase,largeur , i*hauteurCase);
-		for (int i = 0; i < niveau.largeur(); i++)
-			drawable.drawLine(i*largeurCase, 0, i*largeurCase,hauteur );
+		for (int i = 0; i < niveau.hauteur() - 1; i++)
+			drawable.drawLine(0, (i+1)*hauteurCase, largeur, (i+1)*hauteurCase);
+		for (int i = 0; i < niveau.largeur() - 1; i++)
+			drawable.drawLine((i+1)*largeurCase, 0, (i+1)*largeurCase, hauteur);
 	}
 	
 	int largeurCase() {
@@ -58,5 +70,9 @@ public class JeuGraphique extends JComponent {
 
 	int hauteurCase() {
 		return hauteurCase;
+	}
+	
+	public void setSurligne(Point p) {
+		surligne = p;
 	}
 }
