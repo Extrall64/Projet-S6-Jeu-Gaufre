@@ -46,10 +46,10 @@ public class JeuGraphique extends JComponent {
 		// afficher les lignes colonnes
 		drawable.setColor(Color.black);
 		drawable.setStroke(new BasicStroke(2));
-		for (int i = 0; i <= niveau.hauteur(); i++)
-			drawable.drawLine(0, i*hauteurCase, hauteur, i*hauteurCase);
-		for (int i = 0; i <= niveau.largeur(); i++)
-			drawable.drawLine(i*largeurCase, 0, i*largeurCase, largeur);
+		for (int i = 0; i < niveau.hauteur(); i++)
+			drawable.drawLine(0, i*hauteurCase,largeur , i*hauteurCase);
+		for (int i = 0; i < niveau.largeur(); i++)
+			drawable.drawLine(i*largeurCase, 0, i*largeurCase,hauteur );
 	}
 	
 	int largeurCase() {
