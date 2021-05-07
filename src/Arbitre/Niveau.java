@@ -1,9 +1,6 @@
 package Arbitre;
 
-public class Niveau {
-    public static final int VIDE = 0;
-    public static final int GAUFRE = 1;
-    public static final int POISON = 2;
+public class Niveau implements InterfaceNiveau{
     int [][] T;
     int hauteur, largeur;
 
@@ -16,20 +13,23 @@ public class Niveau {
     public void initialiser() {
         for(int i = 0; i < hauteur; i++)
             for(int j = 0; j < largeur; j++)
-                T[i][j] = GAUFRE;
-        T[0][0] = POISON;
+                T[i][j] = InterfaceNiveau.GAUFRE;
+        T[0][0] = InterfaceNiveau.POISON;
     }
 
     public int hauteur() { return hauteur;}
 
     public int largeur() { return largeur;}
 
+    public int contenu(int i, int j) { return T[i][j];}
+
+
     public boolean estJeuFini() {
-        return T[0][0] == VIDE;
+        return T[0][0] == InterfaceNiveau.VIDE;
     }
 
     public boolean coupAutoriser(int i, int j) {
-        return i >= 0 && i < hauteur && j >= 0 && j < largeur && T[i][j] != VIDE;
+        return i >= 0 && i < hauteur && j >= 0 && j < largeur && T[i][j] != InterfaceNiveau.VIDE;
     }
 
     public void joue(int ligne, int colonne) {
@@ -38,7 +38,7 @@ public class Niveau {
         while(i<largeur){
             j = colonne;
             while(j<hauteur){
-                T[i][j]=VIDE;
+                T[i][j]=InterfaceNiveau.VIDE;
                 j++;
             }
             i++;

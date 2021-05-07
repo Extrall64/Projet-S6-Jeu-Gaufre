@@ -1,9 +1,16 @@
 package Arbitre;
 
-import Joueur.*;
+import Interface.InterfaceGraphique;
+import Joueur.Humain;
+import Joueur.IAAleatoire;
+import Joueur.IAEtOu;
+import Joueur.IAGagnantPerdant;
+import Joueur.Joueur;
 
 public class Arbitre implements InterfaceArbitre {
     InterfaceNiveau niveau;
+    InterfaceGraphique ig;
+    
     int numJoueur;
     Joueur j1;
     Joueur j2;
@@ -16,12 +23,16 @@ public class Arbitre implements InterfaceArbitre {
         j2 = new Humain();
         typeIAj2 = 0;
     }
+    
+    public void fixerInterfaceGraphique(InterfaceGraphique i) {
+		ig = i;
+	}
 
     int joueurCourant(){
         return numJoueur;
     }
 
-    void joue(int ligne,int colonne){
+    public void joue(int ligne,int colonne){
         if(niveau.coupAutoriser(ligne,colonne)){
             joue(ligne,colonne);
             changeJoueur();
@@ -41,11 +52,11 @@ public class Arbitre implements InterfaceArbitre {
             case 0:
                 j2 = new Humain();
             case 1:
-                j2 = new IAAleatoire();
+                j2 = new IAAleatoire(niveau);
             case 2:
-                j2 = new IAGagnantPerdant();
+                j2 = new IAGagnantPerdant(niveau);
             case 3:
-                j2 = new IAEtOu();
+                j2 = new IAEtOu(niveau);
             default:
                 System.out.println("Type IA non reconnue");
         }
@@ -55,4 +66,9 @@ public class Arbitre implements InterfaceArbitre {
     int estTypeIA(){
         return typeIAj2;
     }
+    
+    public void tictac() {
+        ig.metAJour();
+    }
+
 }
