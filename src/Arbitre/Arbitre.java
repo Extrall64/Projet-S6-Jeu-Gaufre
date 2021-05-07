@@ -167,11 +167,7 @@ public class Arbitre implements InterfaceArbitre {
     
     public String etatJoueur() {
     	if(niveau.estJeuFini()) {
-<<<<<<< HEAD
-    		return ("Joueur "+ numJoueur  + " a gagnï¿½!");
-=======
-    		return ("Joueur "+ joueurCourant  + " a gagné!");
->>>>>>> branch 'master' of https://github.com/Extrall64/Projet-S6-Jeu-Gaufre.git
+    		return ("Joueur "+ joueurCourant  + " a gagnï¿½!");
     	}
     	else {
     		return ("Au tour de : Joueur " + joueurCourant);
