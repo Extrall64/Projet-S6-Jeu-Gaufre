@@ -17,7 +17,6 @@ public class JeuGraphique extends JComponent {
 
 	public JeuGraphique(InterfaceNiveau in) {
 		niveau = in;
-		
 	}
 
 	@Override
@@ -39,7 +38,7 @@ public class JeuGraphique extends JComponent {
 		drawable.setColor(Color.yellow);
 		for (int i = 0; i < niveau.hauteur(); i++)
 			for (int j = 0; j < niveau.largeur(); j++)
-				if (niveau.contenu(i, j) == InterfaceNiveau.GAUFRE) drawable.fillRect(j*largeurCase, i*hauteurCase, largeurCase, hauteurCase);
+				if (niveau.contenu(i, j) == InterfaceNiveau.GAUFRE || niveau.contenu(i, j) == InterfaceNiveau.POISON) drawable.fillRect(j*largeurCase, i*hauteurCase, largeurCase, hauteurCase);
 		// afficher case poison
 		drawable.setColor(Color.green);
 		drawable.fillOval(0, 0, largeurCase, hauteurCase);
