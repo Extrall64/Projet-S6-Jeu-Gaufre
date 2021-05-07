@@ -9,6 +9,7 @@ import Joueur.Joueur;
 import Patterns.Point;
 
 public class Arbitre implements InterfaceArbitre {
+	int nouvL,nouvH;
     InterfaceNiveau niveau;
     InterfaceGraphique ig;
     
@@ -21,6 +22,8 @@ public class Arbitre implements InterfaceArbitre {
     	typeIA = new int[2];
     	joueurs = new Joueur[2];
         niveau = n;
+        nouvL = niveau.largeur();
+        nouvH = niveau.hauteur();
         joueurCourant = 1;
         fixeIA(InterfaceArbitre.JOUEUR1,InterfaceArbitre.HUMAIN);
         fixeIA(InterfaceArbitre.JOUEUR2,InterfaceArbitre.HUMAIN);
@@ -90,7 +93,7 @@ public class Arbitre implements InterfaceArbitre {
     }
     
     private void nouveauNiveau() {
-    	niveau.initialiser();
+    	niveau.initialiser(nouvH,nouvL);
     	joueurCourant = 1;
         fixeIA(InterfaceArbitre.JOUEUR1,typeIA[0]);
         fixeIA(InterfaceArbitre.JOUEUR2,typeIA[1]);
@@ -113,6 +116,18 @@ public class Arbitre implements InterfaceArbitre {
     			break;
     		case "plus2" :
     			modifieIA(2,true);
+    			break;
+    		case "addH":
+    			nouvH++;
+    			break;
+    		case "addL":
+    			nouvL++;
+    			break;
+    		case "subH":
+    			if(nouvH>2) {nouvH--;}
+    			break;
+    		case "subL":
+    			if(nouvL>2) {nouvL--;}
     			break;
     		default :
     			
@@ -158,4 +173,12 @@ public class Arbitre implements InterfaceArbitre {
     		return ("Au tour de : Joueur " + joueurCourant);
     	}
     }
+    
+    public int nouvelleHauteur() {
+    	return nouvH;
+    }
+	
+	public int nouvelleLargeur() {
+		return nouvL;
+	}
 }

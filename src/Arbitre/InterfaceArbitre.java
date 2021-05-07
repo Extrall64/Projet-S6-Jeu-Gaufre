@@ -26,5 +26,9 @@ public interface InterfaceArbitre {
 	public String etatJoueur();
 	
 	public String etatIA(int j);
+	
+	public int nouvelleHauteur();
+	
+	public int nouvelleLargeur();
 
 }
