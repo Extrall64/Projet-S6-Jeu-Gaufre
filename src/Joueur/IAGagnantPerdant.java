@@ -67,9 +67,10 @@ public class IAGagnantPerdant implements Joueur{
                 if ( (sh % 2 == 0 && sv % 2 != 0)) return new Point(0, sh);
                 else if ( (sv % 2 == 0 && sh % 2 != 0))  return new Point(sv, 0);
                 // probabilité de perdre
-                else return new Point(0, sv); // coup pas toujours correcte;
+                else return new Point(sv, 0);
             }
         }
+System.out.println("coup rendu a la ligne 73");
         return new Point(0, 0);
     }
     @Override
