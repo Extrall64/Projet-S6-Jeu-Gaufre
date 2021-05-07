@@ -15,6 +15,7 @@ public class InterfaceGraphique implements Runnable{
 	JLabel joueurCourant;
 	JButton nouvellePartie;
 	JeuGraphique jg;
+	
 
 	InterfaceGraphique(InterfaceNiveau j, InterfaceArbitre a) {
 		jeu = j;
@@ -81,5 +82,9 @@ public class InterfaceGraphique implements Runnable{
 	public void metAJour() {
 		joueurCourant.setText("Au tour de : Joueur " + arbitre.joueurCourant());
 		jg.repaint();
-	}	
+	}
+	
+	public void setSurligne(Point p) {
+		jg.setSurligne(p);
+	}
 }

@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 
 import javax.swing.JComponent;
 
@@ -12,6 +13,7 @@ import Arbitre.Niveau;
 
 public class JeuGraphique extends JComponent {
 	int largeur, hauteur,largeurCase,hauteurCase;
+	Point surligne;
 	Graphics2D drawable;
 	InterfaceNiveau niveau;
 
@@ -41,6 +43,14 @@ public class JeuGraphique extends JComponent {
 		for (int i = 0; i < niveau.hauteur(); i++)
 			for (int j = 0; j < niveau.largeur(); j++)
 				if (niveau.contenu(i, j) == InterfaceNiveau.GAUFRE || niveau.contenu(i, j) == InterfaceNiveau.POISON) drawable.fillRect(j*largeurCase, i*hauteurCase, largeurCase, hauteurCase);
+		
+		//deplacement interactif
+		if(surligne != null) {
+			drawable.setColor(Color.blue);
+			for (int i = 0; i < surligne.y; i++)
+				for (int j = 0; j < surligne.x; j++)
+					if (niveau.contenu(i, j) == InterfaceNiveau.GAUFRE || niveau.contenu(i, j) == InterfaceNiveau.POISON) drawable.fillRect(j*largeurCase, i*hauteurCase, largeurCase, hauteurCase);
+		}	
 		// afficher case poison
 		drawable.setColor(Color.green);
 		drawable.fillOval(margeX/2, margeY/2, largeurCase-margeX, hauteurCase-margeY);
@@ -60,5 +70,9 @@ public class JeuGraphique extends JComponent {
 
 	int hauteurCase() {
 		return hauteurCase;
+	}
+	
+	public void setSurligne(Point p) {
+		surligne = p;
 	}
 }
