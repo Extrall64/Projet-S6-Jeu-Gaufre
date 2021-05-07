@@ -99,8 +99,42 @@ public class Arbitre implements InterfaceArbitre {
     		case "NouvellePartie" :
     			nouveauNiveau();
     			break;
+    		case "moins" :
+    			modifieIA(false);
+    			break;
+    		case "plus" :
+    			modifieIA(true);
+    			break;
     		default :
     			
+    	}
+    }
+    
+    private void modifieIA(boolean b) {
+    	if(b) {
+    		if(typeIAj2 != 3) {
+    			changeIA(typeIAj2+1);
+    		}
+    	}
+    	else {
+    		if(typeIAj2 != 0) {
+    			changeIA(typeIAj2-1);
+    		}
+    	}
+    }
+    
+    public String etatIA() {
+    	if(typeIAj2 == 0) {
+    		return "Humain";
+    	}
+    	else if(typeIAj2 == 1) {
+    		return "Facile";
+    	}
+    	else if(typeIAj2 == 2) {
+    		return "Moyen";
+    	}
+    	else{
+    		return "Difficile";
     	}
     }
     

@@ -16,8 +16,8 @@ public class InterfaceGraphique implements Runnable{
 	InterfaceArbitre arbitre;
 	boolean maximized;
 	JFrame frame;
-	JLabel joueurCourant;
-	JButton nouvellePartie;
+	JLabel joueurCourant,typeIA,IA;
+	JButton nouvellePartie,moins, plus;
 	JeuGraphique jg;
 	
 
@@ -52,14 +52,31 @@ public class InterfaceGraphique implements Runnable{
 		//affichage
 		Box barreLaterale = Box.createVerticalBox();
 		barreLaterale.add(createLabel("Gaufre"));
+		
 		barreLaterale.add(Box.createGlue());
+		
 		joueurCourant = createLabel("Au tour de : Joueur 1");
 		barreLaterale.add(joueurCourant);
-		frame.add(barreLaterale, BorderLayout.LINE_END);
 		
+		barreLaterale.add(Box.createGlue());
 		//bouton
 		nouvellePartie = createButton("Nouvelle partie", "NouvellePartie");
 		barreLaterale.add(nouvellePartie);
+		
+		barreLaterale.add(Box.createGlue());
+		typeIA = createLabel("IA :");
+		barreLaterale.add(typeIA);
+		Box changeIA = Box.createHorizontalBox();
+		moins = createButton("<", "moins");
+		changeIA.add(moins);
+		IA = createLabel("IA :");
+		changeIA.add(IA);
+		plus = createButton(">", "plus");
+		changeIA.add(plus);
+		barreLaterale.add(changeIA);
+		
+		barreLaterale.add(Box.createGlue());
+		frame.add(barreLaterale, BorderLayout.LINE_END);
 		
 		jg.addMouseListener(new AdaptateurSouris(jg, arbitre));
 		Timer time = new Timer(16, new AdaptateurTemps(arbitre));
@@ -85,6 +102,7 @@ public class InterfaceGraphique implements Runnable{
 
 	public void metAJour() {
 		joueurCourant.setText(arbitre.etatJoueur());
+		IA.setText(arbitre.etatIA());
 		jg.repaint();
 	}
 	

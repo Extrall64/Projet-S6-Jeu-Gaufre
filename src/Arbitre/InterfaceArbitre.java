@@ -17,5 +17,7 @@ public interface InterfaceArbitre {
 	public void surligne(int l, int c);
 	
 	public String etatJoueur();
+	
+	public String etatIA();
 
 }
