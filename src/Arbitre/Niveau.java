@@ -16,8 +16,8 @@ public class Niveau implements InterfaceNiveau{
         T = new int[h][l];
         for(int i = 0; i < hauteur; i++)
             for(int j = 0; j < largeur; j++)
-                T[i][j] = InterfaceNiveau.GAUFRE;
-        T[0][0] = InterfaceNiveau.POISON;
+                T[i][j] = GAUFRE;
+        T[0][0] = POISON;
     }
 
     public int hauteur() { return hauteur;}
@@ -28,11 +28,11 @@ public class Niveau implements InterfaceNiveau{
 
 
     public boolean estJeuFini() {
-        return T[0][0] == InterfaceNiveau.VIDE;
+        return T[0][0] == VIDE;
     }
 
-    public boolean coupAutoriser(int i, int j) {
-        return i >= 0 && i < hauteur && j >= 0 && j < largeur && T[i][j] != InterfaceNiveau.VIDE && !estJeuFini();
+    public boolean estCoupValide(int i, int j) {
+        return i >= 0 && i < hauteur && j >= 0 && j < largeur && T[i][j] != VIDE && !estJeuFini();
     }
 
     public void joue(int ligne, int colonne) {
@@ -41,7 +41,7 @@ public class Niveau implements InterfaceNiveau{
         while(i<hauteur){
             j = colonne;
             while(j<largeur){
-                T[i][j]=InterfaceNiveau.VIDE;
+                T[i][j]=VIDE;
                 j++;
             }
             i++;

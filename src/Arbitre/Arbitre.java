@@ -8,6 +8,7 @@ import Joueur.IAGagnantPerdant;
 import Joueur.Joueur;
 import Patterns.Point;
 
+
 public class Arbitre implements InterfaceArbitre {
 	int nouvL,nouvH;
     InterfaceNiveau niveau;
@@ -24,9 +25,9 @@ public class Arbitre implements InterfaceArbitre {
         niveau = n;
         nouvL = niveau.largeur();
         nouvH = niveau.hauteur();
-        joueurCourant = 1;
-        fixeIA(InterfaceArbitre.JOUEUR1,InterfaceArbitre.HUMAIN);
-        fixeIA(InterfaceArbitre.JOUEUR2,InterfaceArbitre.HUMAIN);
+        joueurCourant = JOUEUR1;
+        fixeIA(JOUEUR1,HUMAIN);
+        fixeIA(JOUEUR2,HUMAIN);
     }
     
     public void fixerInterfaceGraphique(InterfaceGraphique i) {
@@ -37,8 +38,8 @@ public class Arbitre implements InterfaceArbitre {
         return joueurCourant;
     }
 
-    public void joue(int ligne,int colonne){
-        if(typeIA[joueurCourant-1] == 0 && niveau.coupAutoriser(ligne,colonne)){
+    public void joueHumain(int ligne, int colonne){
+        if(typeIA[joueurCourant-1] == HUMAIN && niveau.estCoupValide(ligne,colonne)){
             niveau.joue(ligne,colonne);
             changeJoueur();
         }else{
@@ -47,35 +48,36 @@ public class Arbitre implements InterfaceArbitre {
     }
 
     private void changeJoueur(){
-        if(joueurCourant == InterfaceArbitre.JOUEUR1) {
-        	joueurCourant = InterfaceArbitre.JOUEUR2;
+        if(joueurCourant == JOUEUR1) {
+        	joueurCourant = JOUEUR2;
         }else{
-        	joueurCourant = InterfaceArbitre.JOUEUR1;
+        	joueurCourant = JOUEUR1;
         }
         joueIA();
     }
     
     private void joueIA() {
-    	if(typeIA[joueurCourant-1] != InterfaceArbitre.HUMAIN && !niveau.estJeuFini()) {
+    	if(typeIA[joueurCourant-1] != HUMAIN && !niveau.estJeuFini()) {
 	    	Point p = joueurs[joueurCourant-1].determineCoup();
 	    	niveau.joue(p.x,p.y);
 	        changeJoueur();
+
     	}
     }
 
     private void fixeIA(int joueur, int typeia){
     	typeIA[joueur-1] = typeia;
         switch (typeia){
-            case 0:
+			case HUMAIN:
                 joueurs[joueur-1] = new Humain();
                 break;
-            case 1:
+			case FACILE:
             	joueurs[joueur-1] = new IAAleatoire(niveau);
                 break;
-            case 2:
+			case MOYEN:
             	joueurs[joueur-1] = new IAGagnantPerdant(niveau);
                 break;
-            case 3:
+			case DIFFICILE:
             	joueurs[joueur-1] = new IAEtOu(niveau);
                 break;
             default:
@@ -94,9 +96,9 @@ public class Arbitre implements InterfaceArbitre {
     
     private void nouveauNiveau() {
     	niveau.initialiser(nouvH,nouvL);
-    	joueurCourant = 1;
-        fixeIA(InterfaceArbitre.JOUEUR1,typeIA[0]);
-        fixeIA(InterfaceArbitre.JOUEUR2,typeIA[1]);
+    	joueurCourant = JOUEUR1;
+        fixeIA(JOUEUR1,typeIA[JOUEUR1-1]);
+        fixeIA(JOUEUR2,typeIA[JOUEUR2-1]);
         joueIA();
     }
     
@@ -106,16 +108,16 @@ public class Arbitre implements InterfaceArbitre {
     			nouveauNiveau();
     			break;
     		case "moins1" :
-    			modifieIA(1,false);
+    			modifieIA(JOUEUR1,false);
     			break;
     		case "plus1" :
-    			modifieIA(1,true);
+    			modifieIA(JOUEUR1,true);
     			break;
     		case "moins2" :
-    			modifieIA(2,false);
+    			modifieIA(JOUEUR2,false);
     			break;
     		case "plus2" :
-    			modifieIA(2,true);
+    			modifieIA(JOUEUR2,true);
     			break;
     		case "addH":
     			nouvH++;
@@ -134,44 +136,35 @@ public class Arbitre implements InterfaceArbitre {
     	}
     }
     
-    private void modifieIA(int j,boolean b) {
-    	if(b) {
-    		if(typeIA[j-1] != InterfaceArbitre.DIFFICILE) {
-    			fixeIA(j,typeIA[j-1] + 1);
+    private void modifieIA(int joueur,boolean plus) {
+    	if(plus) {
+    		if(typeIA[joueur-1] != DIFFICILE) {
+    			fixeIA(joueur,typeIA[joueur-1] + 1);
     			joueIA();
     		}
     	}
     	else {
-    		if(typeIA[j-1] != InterfaceArbitre.HUMAIN) {
-    			fixeIA(j,typeIA[j-1] - 1);
+    		if(typeIA[joueur-1] != HUMAIN) {
+    			fixeIA(joueur,typeIA[joueur-1] - 1);
     			joueIA();
     		}
     	}
-    	
     }
     
-    public String etatIA(int j) {
-    	if(typeIA[j-1] == InterfaceArbitre.HUMAIN) {
+    public String etatIA(int joueur) {
+    	if(typeIA[joueur-1] == HUMAIN)
     		return "Humain";
-    	}
-    	else if(typeIA[j-1] == InterfaceArbitre.FACILE) {
+    	if(typeIA[joueur-1] == FACILE)
     		return "Facile";
-    	}
-    	else if(typeIA[j-1] == InterfaceArbitre.MOYEN) {
+    	if(typeIA[joueur-1] == MOYEN)
     		return "Moyen";
-    	}
-    	else{
-    		return "Difficile";
-    	}
+    	return "Difficile";
     }
     
     public String etatJoueur() {
-    	if(niveau.estJeuFini()) {
+    	if(niveau.estJeuFini())
     		return ("Joueur "+ joueurCourant  + " a gagn�!");
-    	}
-    	else {
-    		return ("Au tour de : Joueur " + joueurCourant);
-    	}
+    	return ("Au tour de : Joueur " + joueurCourant);
     }
     
     public int nouvelleHauteur() {

@@ -12,15 +12,15 @@ public class IAAleatoire implements Joueur{
         this.n = n;
         rand = new Random();
     }
-    public void informer(int i, int j) {}
+    public void informer(Point p) {}
     
     public Point determineCoup() {
-        int i = rand.nextInt(n.hauteur());
-        int j = rand.nextInt(n.largeur());
-        while (!n.coupAutoriser(i, j)) {
+        int i,j;
+        do {
             i = rand.nextInt(n.hauteur());
-            j = rand.nextInt(n.largeur());            
+            j = rand.nextInt(n.largeur());
         }
+        while (!n.estCoupValide(i, j));
         return new Point(i, j);
     }
 }

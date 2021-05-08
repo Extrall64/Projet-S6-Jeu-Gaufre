@@ -15,7 +15,7 @@ public class IAGagnantPerdant implements Joueur{
     }
 
     @Override
-    public void informer(int i, int j) {}
+    public void informer(Point p) {}
 
     /* mangable d'un coup
         1) si le rectangle depuis le point (1, 0) couvre tt le gaufre sauf poison
@@ -42,7 +42,7 @@ public class IAGagnantPerdant implements Joueur{
             if (!(n.contenu(1, 1) == InterfaceNiveau.VIDE)) {
                 int i = rand.nextInt(n.hauteur()-1);
                 int j = rand.nextInt(n.largeur()-1);
-                while (!n.coupAutoriser(i+1, j+1)) {
+                while (!n.estCoupValide(i+1, j+1)) {
                     i = rand.nextInt(n.hauteur()-1);
                     j = rand.nextInt(n.largeur()-1);            
                 }

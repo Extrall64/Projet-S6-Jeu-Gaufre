@@ -3,27 +3,25 @@ package Joueur;
 import Patterns.Point;
 
 public class Humain implements Joueur{
-    int i, j;
-    boolean estTerminer;
+    Point p;
+    boolean aEteJoueParInterface;
     public Humain() {
-        i = 0;
-        j = 0;
-        estTerminer = false;
+        Point p = new Point(0,0);
+        aEteJoueParInterface = false;
     }
     // appelé par l'adaptateur souris pour faire sortir de la boucle
-    // dans determiner coup
+    // dans determinerCoup
     @Override
-    public void informer(int i, int j) {
-        this.i = i;
-        this.j = j;
-        estTerminer = true;
+    public void informer(Point p) {
+        this.p = p;
+        aEteJoueParInterface = true;
     }
     @Override
     public Point determineCoup() {
         // attendre que estTerminer soit vraie des le clique de la souris
-        while(!estTerminer) {} 
-        estTerminer = false;
-        return new Point(i, j);
+        while(!aEteJoueParInterface) {}
+        aEteJoueParInterface = false;
+        return p;
     }
 }
 
