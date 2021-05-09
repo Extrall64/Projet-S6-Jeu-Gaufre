@@ -1,5 +1,7 @@
 package Arbitre;
 
+import java.util.Arrays;
+
 public class Niveau implements InterfaceNiveau{
     int [][] T;
     int hauteur, largeur;
@@ -11,7 +13,7 @@ public class Niveau implements InterfaceNiveau{
         initialiser(h,l);
     }
     public void initialiser(int h,int l) {
-    	hauteur = h;
+        hauteur = h;
         largeur = l;
         T = new int[h][l];
         for(int i = 0; i < hauteur; i++)
@@ -46,5 +48,16 @@ public class Niveau implements InterfaceNiveau{
             }
             i++;
         }
+    }
+    public InterfaceNiveau clone() {
+        Niveau clone = new Niveau(hauteur, largeur);
+        clone.T = new int[hauteur][largeur];
+        for (int i = 0; i < hauteur; i++)
+            for(int j = 0; j < largeur; j++)
+                clone.T[i][j] = T[i][j];
+        return (InterfaceNiveau) clone;
+    }
+    public int hash() {
+        return Arrays.deepHashCode(T);
     }
 }
